@@ -16,3 +16,11 @@ This project involves creating a real-time PC monitoring system that alerts the 
 - PA2 & PA3 are for the UART transmission from the Python script
 - PA8 & PC9 are for the I2C of the temperature & humidity sensor
 
+## Temperature & Humidity Sensor
+I created a library to receive temperature and humidity values from the sensor. You can find this [here](PCMonitoringSystem/Core/Src/am2320.c).
+The command to send to read the regsiters and the register addresses for temperature and humidity were all found in the [datasheet of the sensor](https://cdn-shop.adafruit.com/product-files/3721/AM2320.pdf).
+
+## CPU & RAM Usage
+I wrote a script in Python to continuously send data serially over the port to the Nucleo board. The Serial Port of the UART configured in STM32MX was COM3 and the baud rate of both the receiver and the transmitter was 9600. 
+
+Since the size of the data buffer was not consistent (percentage can be one or two digits), I added a feature to add a space if the CPU or RAM usage decreased under 10% to keep the data size the same. The data was sent every 2 seconds. This script can be found [here](send_pc_infor.py).
