@@ -16,11 +16,11 @@ def get_system_info():
 
 def send_data(cpu_usage, ram_usage):
     if cpu_usage >= 10 and ram_usage >= 10:
-        data = f"CPU: {cpu_usage:.2f}% RAM: {ram_usage:.2f}%\n"
-    elif cpu_usage > 10 and ram_usage < 10:
-        data = f"CPU: {cpu_usage:0.2f}% RAM:  {ram_usage:0.2f}%\n"
-    else:
-        data = f"CPU:  {cpu_usage:0.2f}% RAM: {ram_usage:0.2f}%\n"
+        data = f"CPU: {cpu_usage:.2f}%,RAM: {ram_usage:.2f}%\n"
+    elif cpu_usage >= 10 and ram_usage < 10:
+        data = f"CPU: {cpu_usage:0.2f}%,RAM:  {ram_usage:0.2f}%\n"
+    elif cpu_usage < 10 and ram_usage >= 10:
+        data = f"CPU:  {cpu_usage:0.2f}%,RAM: {ram_usage:0.2f}%\n"
     ser.write(data.encode('utf-8')) # Convert the data into bytes and send
 
 try:

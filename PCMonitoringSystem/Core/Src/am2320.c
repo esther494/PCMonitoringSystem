@@ -10,7 +10,7 @@ HAL_StatusTypeDef AM2320_ReadTemperature(I2C_HandleTypeDef *hi2c, float *tempera
 	uint8_t msg[3] = {0x03, 0x02, 0x02};
 	uint8_t temp_data[8];
 
-	HAL_I2C_Master_Transmit(hi2c, SENSOR_ADDRESS << 1, 0x00, 0, HAL_MAX_DELAY);
+	HAL_I2C_Master_Transmit(hi2c, SENSOR_ADDRESS << 1, 0x02, 0, HAL_MAX_DELAY);
 	HAL_Delay(1);
 
 	// Send command to read temperature
