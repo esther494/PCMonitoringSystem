@@ -18,19 +18,21 @@ This project involves creating a real-time PC monitoring system that alerts the 
 - PB4 is for the TIM3_CH1 of the passive buzzer
 
 ## Temperature & Humidity Sensor
-I created a library to receive temperature and humidity values from the sensor. You can find this [here](PCMonitoringSystem/Core/Src/am2320.c).
-The command to send to read the regsiters and the register addresses for temperature and humidity were all found in the [datasheet of the sensor](https://cdn-shop.adafruit.com/product-files/3721/AM2320.pdf).
+I developed a library to receive temperature and humidity values from the sensor. You can find it [here](PCMonitoringSystem/Core/Src/am2320.c).
+The commands for reading the registers and the register addresses for temperature and humidity were all obtained from the [sensor's datasheet](https://cdn-shop.adafruit.com/product-files/3721/AM2320.pdf).
 
 ## CPU & RAM Usage
-I wrote a script in Python to continuously send data serially over the port to the Nucleo board. The Serial Port of the UART configured in STM32MX was COM3 and the baud rate of both the receiver and the transmitter was 9600. 
+I wrote a Python script to continuously send data serially to the Nucleo board. The serial port configured in STM32MX was COM3, and both the receiver and transmitter were set to a baud rate of 9600.
 
-Since the size of the data buffer was not consistent (percentage can be one or two digits), I added a feature to add a space if the CPU or RAM usage decreased under 10% to keep the data size the same. The data was sent every 2 seconds. This script can be found [here](send_pc_infor.py).
+To ensure consistent data buffer size (since the percentage values can be one or two digits), I added a feature to insert a space if the CPU or RAM usage dropped below 10%. This keeps the data size uniform. The data is sent every 2 seconds. You can find the script [here](send_pc_infor.py).
 
 ## Passive Buzzer
-To activate the passive buzzer, we must generate PWM signals using the configured timer. I have referred to [this website](https://controllerstech.com/interface-passive-buzzer-with-stm32/) to use the buzzer
+To activate the passive buzzer, we need to generate PWM signals using the configured timer. I referred to this [this website](https://controllerstech.com/interface-passive-buzzer-with-stm32/) for guidance on using the buzzer.
 ![image](https://github.com/user-attachments/assets/c73cd438-19e2-49d8-86ef-7e621a95c893)
 
-Clock source is set from the internal clock and the channel1 generates the PWM signal.
-Prescaler is set as 0, so the frequency we are using is 60MHz. Counter Period is 1000 which means that at every 60MHz, the counter increments up and when it reaches 1000, it auto reloads. 
+The clock source is set to the internal clock, and channel 1 generates the PWM signal. The prescaler is set to 0, so the frequency we are using is 60 MHz. The counter period is 1000, meaning that at every 60 MHz, the counter increments up, and when it reaches 1000, it auto-reloads.
 
-To set the desired frequency, I just changed the prescaler of the timer and kept all the other values the same. The function presForFrequency takes frequency as the input and outputs the prescaler needed to set the frequency. 
+To set the desired frequency, I simply changed the prescaler of the timer while keeping all other values the same. The function presForFrequency takes the frequency as input and outputs the necessary prescaler to set that frequency.
+
+## Putting It All Together
+Since this project addresses many subproblems, I used FreeRTOS CMSIS_V1. For each thread, I set the stack size to 256 and assigned normal priority. For the System Information task, I use a global flag called UARTFlag, which is raised when UART finishes its transmission. This allows the task to process the received data and output it on the display.
