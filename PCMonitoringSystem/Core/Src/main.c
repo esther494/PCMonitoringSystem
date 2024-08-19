@@ -153,7 +153,7 @@ int main(void)
   lcd_cursor_pos(1, 0);
   lcd_send_string("Humidity:");
 
-  //HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 
   //HAL_UART_Receive_DMA(&huart2, receiveBuffer, RECEIVE_SIZE);
   /* USER CODE END 2 */
