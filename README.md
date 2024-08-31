@@ -3,7 +3,7 @@
 
 ![](Preview.gif)
 
-This is a simple embedded project that displays the temperature and humidity inside a PC case, as well as the CPU and RAM usage.
+This is a simple embedded project that displays the temperature and humidity inside a PC case, as well as the CPU and RAM usage. I have decided to make this project to manually detect when to brace for a program crash as this often happens while intense PC usage (gaming).
 - Python program that automatically executes as a startup program will transmit PC data over UART.
 - A I2C LCD that displays all collected data.
 - A notification system that alerts the user when the temperature exceeds a predefined value.
